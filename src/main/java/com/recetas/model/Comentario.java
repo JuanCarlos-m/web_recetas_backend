@@ -14,6 +14,8 @@ import javax.persistence.TemporalType;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -43,5 +45,6 @@ public class Comentario {
 	private User autor;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Receta receta;
 }

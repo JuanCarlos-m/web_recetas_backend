@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,11 +36,15 @@ public class Receta {
 	@Column(name = "titulo")
 	private String titulo;
 	
-	@Column(name = "contenido")
+	@Column(name = "contenido", columnDefinition = "TEXT")
 	private String contenido;
 	
 	@Column(name = "img")
 	private String img;
+	
+	@Column(name = "Categoría")
+	@Enumerated(EnumType.STRING)
+	private Categoria categoria;
 	
 	@Column(name = "fecha_creacion")
 	@Temporal(TemporalType.TIMESTAMP)
