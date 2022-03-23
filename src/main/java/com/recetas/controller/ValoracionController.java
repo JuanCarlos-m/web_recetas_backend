@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.recetas.model.Valoracion;
@@ -30,7 +29,7 @@ public class ValoracionController {
 	}
 	
 	@GetMapping("/{recetaid}/{userid}")
-	public Valoracion getValoracionFromUsuario(@PathVariable("recetaid")Integer recetaid, @PathVariable("userid")Integer userid) {
+	public Valoracion getValoracionFromUsuario(@PathVariable("recetaid")Integer recetaid, @PathVariable("userid")String userid) {
 		return this.valoracionService.getValoracionFromUser(recetaid, userid);
 	}
 	

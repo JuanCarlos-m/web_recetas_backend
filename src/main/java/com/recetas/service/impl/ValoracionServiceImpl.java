@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.recetas.model.Valoracion;
-import com.recetas.repository.ValoracionRepository;
+import com.recetas.dao.ValoracionRepository;
 import com.recetas.service.ValoracionService;
 
 @Service
@@ -23,7 +23,7 @@ public class ValoracionServiceImpl implements ValoracionService {
 	}
 
 	@Override
-	public Valoracion getValoracionFromUser(Integer recetaid, Integer usuarioid) {
+	public Valoracion getValoracionFromUser(Integer recetaid, String usuarioid) {
 		return this.valoracionRepository.findValoracionByUser(recetaid, usuarioid).get();
 	}
 
