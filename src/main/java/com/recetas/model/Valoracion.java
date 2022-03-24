@@ -25,7 +25,7 @@ public class Valoracion {
 	
 	@ManyToOne()
 	@JoinColumn(name = "user_id")
-	private User user;
+	private Usuarios user;
 	
 	@ManyToOne()
 	@JoinColumn(name = "receta_id")

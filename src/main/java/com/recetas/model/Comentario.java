@@ -23,7 +23,7 @@ import lombok.Setter;
 @Table(name = "comentarios")
 @Getter
 @Setter
-public class Comentario {
+public class Comentario extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,13 +36,8 @@ public class Comentario {
 	@Column(name = "texto", columnDefinition = "TEXT")
 	private String texto;
 	
-	@Column(name = "fecha_creacion")
-	@Temporal(TemporalType.TIMESTAMP)
-	@CreatedDate
-	private Date fechacreacion;
-	
 	@ManyToOne
-	private User autor;
+	private Usuarios autor;
 	
 	@ManyToOne
 	@JsonIgnore

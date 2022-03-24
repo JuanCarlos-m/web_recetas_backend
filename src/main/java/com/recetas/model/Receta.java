@@ -26,7 +26,7 @@ import lombok.Setter;
 @Table(name = "recetas")
 @Getter
 @Setter
-public class Receta {
+public class Receta extends Auditable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,7 +52,7 @@ public class Receta {
 	private Date fechacreacion;
 	
 	@ManyToOne
-	private User user;
+	private Usuarios user;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "receta")
 	private List<Comentario> comentarios;

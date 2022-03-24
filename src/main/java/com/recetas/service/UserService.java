@@ -1,16 +1,21 @@
 package com.recetas.service;
 
-import java.util.List;
-
+//import com.recetas.dto.UserDTO;
+import com.recetas.exception.EntityNotFoundException;
 import com.recetas.model.Receta;
-import com.recetas.model.User;
+import com.recetas.model.Usuarios;
+
+import java.util.List;
 
 public interface UserService {
 
-	User getUser(Integer id);
+    List<Usuarios> getAllActive();
+    List<Usuarios> getAll();
+    Usuarios getUser(String id);
+    void switchActive(String nameUsuario) throws EntityNotFoundException;
+    Usuarios findByName(String nameUsuario) throws EntityNotFoundException;
+    Usuarios create(Usuarios usuarios);
+    void delete(String nameUsuario) throws EntityNotFoundException;
 
-	List<User> getAllUsers();
-
-	List<Receta> getRecetasByUser(Integer id);
-
+    List<Receta> getRecetasByUser(String id);
 }

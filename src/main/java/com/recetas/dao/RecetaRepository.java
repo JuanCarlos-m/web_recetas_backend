@@ -1,4 +1,4 @@
-package com.recetas.repository;
+package com.recetas.dao;
 
 import java.util.List;
 

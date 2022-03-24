@@ -1,4 +1,4 @@
-package com.recetas.repository;
+package com.recetas.dao;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +19,6 @@ public interface ValoracionRepository extends JpaRepository<Valoracion, Integer>
 	
 	@Query(value = "select * from valoraciones where receta_id=:recetaid and user_id=:userid",
 			nativeQuery = true)
-	Optional<Valoracion> findValoracionByUser(@Param("recetaid") Integer recetaid, @Param("userid") Integer userid);
+	Optional<Valoracion> findValoracionByUser(@Param("recetaid") Integer recetaid, @Param("userid") String userid);
 
 }

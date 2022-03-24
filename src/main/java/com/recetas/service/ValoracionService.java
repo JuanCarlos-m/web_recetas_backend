@@ -8,7 +8,7 @@ public interface ValoracionService {
 
 	List<Valoracion> getValoracionesFromReceta(Integer id);
 	
-	Valoracion getValoracionFromUser(Integer recetaid, Integer usuarioid);
+	Valoracion getValoracionFromUser(Integer recetaid, String usuarioid);
 	
 	Valoracion addValoracion(Valoracion valoracion);
 	

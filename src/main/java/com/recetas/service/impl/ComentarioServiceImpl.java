@@ -3,7 +3,7 @@ package com.recetas.service.impl;
 import org.springframework.stereotype.Service;
 
 import com.recetas.model.Comentario;
-import com.recetas.repository.ComentarioRepository;
+import com.recetas.dao.ComentarioRepository;
 import com.recetas.service.ComentarioService;
 
 @Service

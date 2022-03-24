@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.recetas.model.Categoria;
 import com.recetas.model.Comentario;
 import com.recetas.model.Receta;
-import com.recetas.repository.RecetaRepository;
+import com.recetas.dao.RecetaRepository;
 import com.recetas.service.RecetaService;
 
 @Service
