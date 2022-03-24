@@ -121,4 +121,22 @@ public class UserController {
 	public List<Receta> getRecetasByUser (@PathVariable("id") String id) {
 		return this.userService.getRecetasByUser(id);
 	}
+	
+	@GetMapping("/users/{id}/follow")
+	public List<Usuarios> getFollows (@PathVariable("id") String id){
+		return this.userService.getFollows(id);
+	}
+	
+	@GetMapping("/users/{id}/followers")
+	public List<Usuarios> getFollowers (@PathVariable("id") String id){
+		return this.userService.getFollowers(id);
+	}
+	
+	@PostMapping("/users/{id}/follow")
+	public ResponseEntity<?> followUser(@PathVariable("id") String seguidorId, @RequestParam("follow") String seguidoId){
+		this.userService.addFollow(seguidorId, seguidoId);
+		
+		return ResponseEntity.ok(null);
+		
+	}
 }

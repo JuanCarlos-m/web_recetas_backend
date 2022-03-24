@@ -30,4 +30,14 @@ public interface UserRepository extends JpaRepository<Usuarios, String> {
     Integer switchUsuario(@Param("nombreUsuario") String nombreUsuario);
 
     Optional<Usuarios> findByUsername(String username);
+    
+    @Query(value = "select usuarios.* "
+    		+ "from usuarios, follows "
+    		+ "where follows.seguido=:id and usuarios.id=follows.seguidor", nativeQuery = true)
+    List<Usuarios> findFollowers(@Param("id") String id);
+    
+    @Query(value = "select usuarios.* "
+    		+ "from usuarios, follows "
+    		+ "where follows.seguido=usuarios.id and :id=follows.seguidor", nativeQuery = true)
+    List<Usuarios> findFollows(@Param("id") String id);
 }

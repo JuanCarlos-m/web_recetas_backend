@@ -23,6 +23,7 @@ public class Usuarios extends Persistable {
     @Column(unique = true, nullable = false)
     private String username;
     @Column(nullable = false)
+    @JsonIgnore //No queremos recibir la contraseña del usuario cuando hacemos peticion GET
     private String password;
 
     public Usuarios(String username, String password) {
@@ -53,6 +54,15 @@ public class Usuarios extends Persistable {
             inverseJoinColumns = @JoinColumn(name = "roles_id")
     )
     private List<Roles> roles = new ArrayList<>();
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+    		name = "follows",
+    		joinColumns = @JoinColumn(name="seguidor"),
+    		inverseJoinColumns = @JoinColumn(name = "seguido")
+    		)
+    @JsonIgnore
+    private List<Usuarios> follows;
 
 
 }

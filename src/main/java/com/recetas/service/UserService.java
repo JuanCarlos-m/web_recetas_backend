@@ -18,4 +18,8 @@ public interface UserService {
     void delete(String nameUsuario) throws EntityNotFoundException;
 
     List<Receta> getRecetasByUser(String id);
+    List<Usuarios> getFollows(String id);
+    List<Usuarios>getFollowers(String id); 
+    
+    void addFollow(String idSeguidor, String idSeguido);
 }
