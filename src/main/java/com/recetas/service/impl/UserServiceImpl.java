@@ -2,13 +2,17 @@ package com.recetas.service.impl;
 
 
 import com.recetas.dao.UserRepository;
-//import com.recetas.dto.UserDTO;
 import com.recetas.exception.EntityNotFoundException;
-import com.recetas.model.Receta;
 import com.recetas.model.Usuarios;
 import com.recetas.service.UserService;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,11 +35,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
     
-    @Override
+    /*@Override
 	public Usuarios getUser(String id) {
 		
 		return this.userRepository.findById(id).get();
-	}
+	}Se buscara a los usuarios por nombre en vez de por id, esto ya no es necesario*/
 
     @Override
     public void switchActive(String nameUsuario) throws EntityNotFoundException {
@@ -45,7 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Usuarios findByName(String nameUsuario) throws EntityNotFoundException {
+    public Usuarios findByUsername(String nameUsuario) throws EntityNotFoundException {
 
         return userRepository.findByUsername(nameUsuario).orElseThrow(
                 ()-> new EntityNotFoundException(String.format(USER_NOT_EXIST, nameUsuario))
@@ -61,27 +65,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(String nameUsuario) throws EntityNotFoundException {
-        Usuarios usuario = findByName(nameUsuario);
+        Usuarios usuario = findByUsername(nameUsuario);
         if (usuario != null)
             userRepository.delete(usuario);
         else
             throw new EntityNotFoundException(String.format(USER_NOT_EXIST, nameUsuario));
     }
     
-
 	@Override
-	public List<Receta> getRecetasByUser(String id) {
-		return this.userRepository.findById(id).get().getRecetas();
-	}
-
-	@Override
-	public List<Usuarios> getFollows(String id) {
-				return this.userRepository.findFollows(id);
+	public List<Usuarios> getFollows(String id, Integer pageNo, Integer pageSize, String sortBy) {
+		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		
+		Page<Usuarios> pagedResult=this.userRepository.findFollows(id, paging);
+		
+		if (pagedResult.hasContent()) {
+			return pagedResult.getContent();
+		}else {
+			return new ArrayList<Usuarios>();
+		}
 	}
 	
 	@Override
-	public List<Usuarios> getFollowers(String id) {
-		return this.userRepository.findFollowers(id);
+	public List<Usuarios> getFollowers(String id, Integer pageNo, Integer pageSize, String sortBy) {
+Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		
+		Page<Usuarios> pagedResult=this.userRepository.findFollowers(id, paging);
+		
+		if (pagedResult.hasContent()) {
+			return pagedResult.getContent();
+		}else {
+			return new ArrayList<Usuarios>();
+		}
 	}
 	
 	@Override
@@ -91,6 +105,16 @@ public class UserServiceImpl implements UserService {
 		
 		seguidor.getFollows().add(seguido);
 		this.userRepository.save(seguidor);
+	}
+
+	@Override
+	public boolean checkFollow(String seguidor, String seguido) {
+		Usuarios userSeguidor= this.userRepository.findByUsername(seguidor).get();
+		Usuarios userSeguido= this.userRepository.findByUsername(seguido).get();
+		
+		if (userSeguidor.getFollows().contains(userSeguido)) return true;
+		else return false;
+		
 	}
 
 

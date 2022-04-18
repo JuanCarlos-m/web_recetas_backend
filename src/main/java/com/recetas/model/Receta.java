@@ -48,7 +48,7 @@ public class Receta extends Auditable {
 	
 	@Column(name = "fecha_creacion")
 	@Temporal(TemporalType.TIMESTAMP)
-	@CreatedDate
+	@CreatedDate//Borrar, Auditable ya hace esto, habra que modificar la funcion en el servicio tambien
 	private Date fechacreacion;
 	
 	@ManyToOne

@@ -20,7 +20,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Usuarios extends Persistable {
 
-    @Column(unique = true, nullable = false)
+	@Id
+    @Column(unique = true, nullable = false, length = 50)
     private String username;
     @Column(nullable = false)
     @JsonIgnore //No queremos recibir la contraseña del usuario cuando hacemos peticion GET

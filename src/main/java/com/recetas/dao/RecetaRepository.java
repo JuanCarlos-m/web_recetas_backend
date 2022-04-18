@@ -1,7 +1,7 @@
 package com.recetas.dao;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,7 +15,10 @@ public interface RecetaRepository extends JpaRepository<Receta, Integer> {
 	
 	@Query(value = "select * from recetas where recetas.titulo like %:input%",
 			nativeQuery = true)
-	List<Receta> findBySearch(@Param("input")String input);
+	Page<Receta> findBySearch(@Param("input")String input, Pageable pageable);
 	
-	List<Receta> findAllByCategoria(Categoria categoria);
+	Page<Receta> findAllByCategoria(Categoria categoria, Pageable pageable);
+	
+	@Query(value = "select * from recetas where recetas.user_username=:user", nativeQuery = true)
+	Page<Receta> findAllByUsername(@Param("user") String username, Pageable pageable);
 }

@@ -6,8 +6,8 @@ import com.recetas.dao.RoleRepository;
 import com.recetas.dao.UserRepository;
 import com.recetas.dto.MessageResponse;
 import com.recetas.dto.UserPostDTO;
+import com.recetas.exception.EntityNotFoundException;
 import com.recetas.model.ERole;
-import com.recetas.model.Receta;
 import com.recetas.model.Roles;
 import com.recetas.model.Usuarios;
 import com.recetas.service.UserService;
@@ -112,31 +112,32 @@ public class UserController {
 	}
 	
 	
-	@GetMapping("/users/{id}")
-	public Usuarios getUser (@PathVariable("id") String id) {
-		return this.userService.getUser(id);
+	@GetMapping("/users/{username}")
+	public Usuarios getUser (@PathVariable("username") String username) throws EntityNotFoundException {
+		return this.userService.findByUsername(username);
 	}
 	
-	@GetMapping("/users/{id}/recetas/")
-	public List<Receta> getRecetasByUser (@PathVariable("id") String id) {
-		return this.userService.getRecetasByUser(id);
+	@GetMapping("/users/{username}/follow")
+	public List<Usuarios> getFollows (@PathVariable("username") String username, @RequestParam(name = "no", defaultValue = "0") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "username") String sortBy){
+		return this.userService.getFollows(username, pageNo, pageSize, sortBy);
 	}
 	
-	@GetMapping("/users/{id}/follow")
-	public List<Usuarios> getFollows (@PathVariable("id") String id){
-		return this.userService.getFollows(id);
+	@GetMapping("/users/{username}/followers")
+	public List<Usuarios> getFollowers (@PathVariable("username") String username, @RequestParam(name = "no", defaultValue = "0") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "username") String sortBy){
+		return this.userService.getFollowers(username, pageNo, pageSize, sortBy);
 	}
 	
-	@GetMapping("/users/{id}/followers")
-	public List<Usuarios> getFollowers (@PathVariable("id") String id){
-		return this.userService.getFollowers(id);
-	}
-	
-	@PostMapping("/users/{id}/follow")
-	public ResponseEntity<?> followUser(@PathVariable("id") String seguidorId, @RequestParam("follow") String seguidoId){
+	@PostMapping("/users/{username}/follow")
+	public ResponseEntity<?> followUser(@PathVariable("username") String seguidorId, @RequestParam("follow") String seguidoId){
 		this.userService.addFollow(seguidorId, seguidoId);
 		
 		return ResponseEntity.ok(null);
 		
+	}
+	
+	@GetMapping("/users/{username}/follow/{userfollowed}")
+	public ResponseEntity<Boolean> ifFollowed(@PathVariable("username") String seguidor, @PathVariable("userfollowed") String seguido){
+		if (this.userService.checkFollow(seguidor,seguido)) return ResponseEntity.ok(true);
+		else return ResponseEntity.ok(false);
 	}
 }

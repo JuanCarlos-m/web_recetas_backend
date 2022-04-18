@@ -40,7 +40,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
                 .readValue(request.getInputStream(), AccountCredentials.class);
         Authentication authentication= getAuthenticationManager().authenticate(
             new UsernamePasswordAuthenticationToken(
-                    credentials.getEmail(),
+                    credentials.getUsername(),
                     credentials.getPassword(),
                     Collections.emptyList()
             )

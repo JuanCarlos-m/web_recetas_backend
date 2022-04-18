@@ -1,6 +1,9 @@
 package com.recetas.dao;
 
 import com.recetas.model.Usuarios;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -33,11 +36,11 @@ public interface UserRepository extends JpaRepository<Usuarios, String> {
     
     @Query(value = "select usuarios.* "
     		+ "from usuarios, follows "
-    		+ "where follows.seguido=:id and usuarios.id=follows.seguidor", nativeQuery = true)
-    List<Usuarios> findFollowers(@Param("id") String id);
+    		+ "where follows.seguido=:id and usuarios.username=follows.seguidor", nativeQuery = true)
+    Page<Usuarios> findFollowers(@Param("id") String id, Pageable pageable);
     
     @Query(value = "select usuarios.* "
     		+ "from usuarios, follows "
-    		+ "where follows.seguido=usuarios.id and :id=follows.seguidor", nativeQuery = true)
-    List<Usuarios> findFollows(@Param("id") String id);
+    		+ "where follows.seguido=usuarios.username and :id=follows.seguidor", nativeQuery = true)
+    Page<Usuarios> findFollows(@Param("id") String id, Pageable pageable);
 }
