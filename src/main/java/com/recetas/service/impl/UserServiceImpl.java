@@ -73,4 +73,25 @@ public class UserServiceImpl implements UserService {
 	public List<Receta> getRecetasByUser(String id) {
 		return this.userRepository.findById(id).get().getRecetas();
 	}
+
+	@Override
+	public List<Usuarios> getFollows(String id) {
+				return this.userRepository.findFollows(id);
+	}
+	
+	@Override
+	public List<Usuarios> getFollowers(String id) {
+		return this.userRepository.findFollowers(id);
+	}
+	
+	@Override
+	public void addFollow(String idSeguidor, String idSeguido) {
+		Usuarios seguidor=this.userRepository.findById(idSeguidor).get();
+		Usuarios seguido=this.userRepository.findById(idSeguido).get();
+		
+		seguidor.getFollows().add(seguido);
+		this.userRepository.save(seguidor);
+	}
+
+
 }
