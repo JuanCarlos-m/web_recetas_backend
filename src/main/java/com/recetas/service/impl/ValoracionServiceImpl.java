@@ -34,7 +34,7 @@ public class ValoracionServiceImpl implements ValoracionService {
 
 	@Override
 	public Valoracion editValoracion(Valoracion valoracion) {
-		this.valoracionRepository.findValoracionByUser(valoracion.getReceta().getId(), valoracion.getUser().getId()).orElseThrow();
+		this.valoracionRepository.findValoracionByUser(valoracion.getReceta().getId(), valoracion.getUser().getUsername()).orElseThrow();
 		
 		return this.valoracionRepository.save(valoracion);
 	}

@@ -1,7 +1,6 @@
 package com.recetas.model;
 
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,15 +1,21 @@
 package com.recetas.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.recetas.model.Categoria;
-import com.recetas.model.Comentario;
 import com.recetas.model.Receta;
 import com.recetas.dao.RecetaRepository;
 import com.recetas.service.RecetaService;
+
+
 
 @Service
 public class RecetaServiceImpl implements RecetaService {
@@ -21,8 +27,17 @@ public class RecetaServiceImpl implements RecetaService {
 	}
 	
 	@Override
-	public List<Receta> getAllRecetas() {
-		return this.recetaRepository.findAll();
+	public List<Receta> getAllRecetas(Integer pageNo, Integer pageSize, String sortBy) {
+		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		
+		Page<Receta> pagedResult=this.recetaRepository.findAll(paging);
+		
+		if (pagedResult.hasContent()) {
+			return pagedResult.getContent();
+		}else {
+			return new ArrayList<Receta>();
+		}
+		//return this.recetaRepository.findAll();
 	}
 
 	@Override
@@ -31,18 +46,38 @@ public class RecetaServiceImpl implements RecetaService {
 	}
 
 	@Override
-	public List<Receta> getRecetasBySearch(String search) {
-		return this.recetaRepository.findBySearch(search);
+	public List<Receta> getRecetasBySearch(String search, Integer pageNo, Integer pageSize, String sortBy) {
+		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		
+		Page<Receta> pagedResult=this.recetaRepository.findBySearch(search,paging);
+		
+		if (pagedResult.hasContent()) {
+			return pagedResult.getContent();
+		}else {
+			return new ArrayList<Receta>();
+		}
+		
+		//return this.recetaRepository.findBySearch(search);
 	}
 
 	@Override
-	public List<Receta> getRecetasByCategory(Categoria categoria) {
-		return this.recetaRepository.findAllByCategoria(categoria);
+	public List<Receta> getRecetasByCategory(Categoria categoria, Integer pageNo, Integer pageSize, String sortBy) {
+		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		
+		Page<Receta> pagedResult=this.recetaRepository.findAllByCategoria(categoria, paging);
+		
+		if (pagedResult.hasContent()) {
+			return pagedResult.getContent();
+		}else {
+			return new ArrayList<Receta>();
+		}
+		
+		//return this.recetaRepository.findAllByCategoria(categoria);
 	}
 
 	@Override
 	public Receta addReceta(Receta receta) {
-		receta.setFechacreacion(new Date());
+		receta.setCreatedAt(new Date());
 		return this.recetaRepository.save(receta);
 	}
 
@@ -60,9 +95,17 @@ public class RecetaServiceImpl implements RecetaService {
 	}
 
 	@Override
-	public List<Comentario> getComentariosFromReceta(Integer id) {
-		return this.recetaRepository.findById(id).get().getComentarios();
+	public List<Receta> getRecetasByUser(String username, Integer pageNo, Integer pageSize, String sortBy) {
+		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		
+		Page<Receta> pagedResult=this.recetaRepository.findAllByUsername(username, paging);
+		
+		if (pagedResult.hasContent()) {
+			return pagedResult.getContent();
+		}else {
+			return new ArrayList<Receta>();
+		}
+		
 	}
-	
 
 }
