@@ -8,11 +8,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.recetas.model.Categoria;
 import com.recetas.model.Receta;
 import com.recetas.dao.RecetaRepository;
+import com.recetas.dto.PagedResponse;
 import com.recetas.service.RecetaService;
 
 
@@ -27,15 +29,17 @@ public class RecetaServiceImpl implements RecetaService {
 	}
 	
 	@Override
-	public List<Receta> getAllRecetas(Integer pageNo, Integer pageSize, String sortBy) {
+	public PagedResponse getAllRecetas(Integer pageNo, Integer pageSize, String sortBy) {
 		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		
 		Page<Receta> pagedResult=this.recetaRepository.findAll(paging);
 		
 		if (pagedResult.hasContent()) {
-			return pagedResult.getContent();
+			Receta[] recetas=pagedResult.getContent().toArray(Receta[]::new);
+			return new PagedResponse(recetas, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
+
 		}else {
-			return new ArrayList<Receta>();
+			return new PagedResponse();
 		}
 		//return this.recetaRepository.findAll();
 	}
@@ -46,30 +50,34 @@ public class RecetaServiceImpl implements RecetaService {
 	}
 
 	@Override
-	public List<Receta> getRecetasBySearch(String search, Integer pageNo, Integer pageSize, String sortBy) {
+	public PagedResponse getRecetasBySearch(String search, Integer pageNo, Integer pageSize, String sortBy) {
 		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		
 		Page<Receta> pagedResult=this.recetaRepository.findBySearch(search,paging);
 		
 		if (pagedResult.hasContent()) {
-			return pagedResult.getContent();
+			Receta[] recetas=pagedResult.getContent().toArray(Receta[]::new);
+			return new PagedResponse(recetas, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
+
 		}else {
-			return new ArrayList<Receta>();
+			return new PagedResponse();
 		}
 		
 		//return this.recetaRepository.findBySearch(search);
 	}
 
 	@Override
-	public List<Receta> getRecetasByCategory(Categoria categoria, Integer pageNo, Integer pageSize, String sortBy) {
+	public PagedResponse getRecetasByCategory(Categoria categoria, Integer pageNo, Integer pageSize, String sortBy) {
 		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		
 		Page<Receta> pagedResult=this.recetaRepository.findAllByCategoria(categoria, paging);
 		
 		if (pagedResult.hasContent()) {
-			return pagedResult.getContent();
+			Receta[] recetas=pagedResult.getContent().toArray(Receta[]::new);
+			return new PagedResponse(recetas, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
+
 		}else {
-			return new ArrayList<Receta>();
+			return new PagedResponse();
 		}
 		
 		//return this.recetaRepository.findAllByCategoria(categoria);
@@ -95,15 +103,33 @@ public class RecetaServiceImpl implements RecetaService {
 	}
 
 	@Override
-	public List<Receta> getRecetasByUser(String username, Integer pageNo, Integer pageSize, String sortBy) {
+	public PagedResponse getRecetasByUser(String username, Integer pageNo, Integer pageSize, String sortBy) {
 		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		
 		Page<Receta> pagedResult=this.recetaRepository.findAllByUsername(username, paging);
 		
 		if (pagedResult.hasContent()) {
-			return pagedResult.getContent();
+			Receta[] recetas=pagedResult.getContent().toArray(Receta[]::new);
+			return new PagedResponse(recetas, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
+
 		}else {
-			return new ArrayList<Receta>();
+			return new PagedResponse();
+		}
+		
+	}
+
+	@Override
+	public PagedResponse getTimeline(String username, Integer pageNo, Integer pageSize, String sortBy) {
+		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		
+		Page<Receta> pagedResult=this.recetaRepository.findFollowedUsersRecipes(username, paging);
+		
+		if (pagedResult.hasContent()) {
+			Receta[] recetas=pagedResult.getContent().toArray(Receta[]::new);
+			return new PagedResponse(recetas, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
+
+		}else {
+			return new PagedResponse();
 		}
 		
 	}

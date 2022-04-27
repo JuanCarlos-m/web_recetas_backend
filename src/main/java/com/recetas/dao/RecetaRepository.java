@@ -21,4 +21,7 @@ public interface RecetaRepository extends JpaRepository<Receta, Integer> {
 	
 	@Query(value = "select * from recetas where recetas.user_username=:user", nativeQuery = true)
 	Page<Receta> findAllByUsername(@Param("user") String username, Pageable pageable);
+	
+	@Query(value = "select distinct recetas.* from recetas, follows where (recetas.user_username=follows.seguido and follows.seguidor=:user) or recetas.user_username=:user", nativeQuery = true)
+	Page<Receta> findFollowedUsersRecipes(@Param("user") String username, Pageable pageable);
 }

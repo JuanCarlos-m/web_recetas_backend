@@ -9,7 +9,9 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -33,11 +35,26 @@ public class Usuarios extends Persistable {
     }
 
 
+
+	public Usuarios(String username, String password, String name, String lastname, Date fechanac) {
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.lastname = lastname;
+		this.fechanac = fechanac;
+	}
+
+
+
 	@Column(name = "first_name", length = 254)
 	private String name;
 	
 	@Column(name = "last_name", length = 254)
 	private String lastname;
+	
+	@Column(name = "fecha_nac")
+	@Temporal(TemporalType.DATE)
+	private Date fechanac;
     
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")

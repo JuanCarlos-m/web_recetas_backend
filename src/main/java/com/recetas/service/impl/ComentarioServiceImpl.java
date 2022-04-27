@@ -10,7 +10,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.recetas.model.Comentario;
+import com.recetas.model.Receta;
 import com.recetas.dao.ComentarioRepository;
+import com.recetas.dto.PagedResponse;
 import com.recetas.service.ComentarioService;
 
 @Service
@@ -23,15 +25,17 @@ public class ComentarioServiceImpl implements ComentarioService {
 	}
 	
 	@Override
-	public List<Comentario> getComentariosFromReceta(Integer id, Integer pageNo, Integer pageSize, String sortBy) {
+	public PagedResponse getComentariosFromReceta(Integer id, Integer pageNo, Integer pageSize, String sortBy) {
 		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		
 		Page<Comentario> pagedResult=this.comentarioRepository.findByRecetaid(id, paging);
 		
 		if (pagedResult.hasContent()) {
-			return pagedResult.getContent();
+			Comentario[] comentarios=pagedResult.getContent().toArray(Comentario[]::new);
+			return new PagedResponse(comentarios, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
+
 		}else {
-			return new ArrayList<Comentario>();
+			return new PagedResponse();
 		}
 		//return this.comentarioRepository.findByRecetaid(id);
 	}

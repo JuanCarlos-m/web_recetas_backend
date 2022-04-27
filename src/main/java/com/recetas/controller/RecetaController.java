@@ -2,6 +2,7 @@ package com.recetas.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.recetas.dto.PagedResponse;
 import com.recetas.model.Categoria;
 import com.recetas.model.Receta;
 import com.recetas.service.RecetaService;
@@ -29,13 +31,18 @@ public class RecetaController {
 	}
 	
 	@GetMapping
-	public List<Receta> getAllRecetas(@RequestParam(name = "no", defaultValue = "0") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "createdAt") String sortBy){
-		return this.recetaService.getAllRecetas(pageNo,pageSize,sortBy);
+	public PagedResponse getAllRecetas(@RequestParam(name = "no", defaultValue = "1") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "createdAt") String sortBy){
+		return this.recetaService.getAllRecetas(pageNo-1,pageSize,sortBy);
 	}
 	
 	@GetMapping("/user/{username}")
-	public List<Receta> getRecetasByUser (@PathVariable("username") String username, @RequestParam(name = "no", defaultValue = "0") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "created_At") String sortBy) {
-		return this.recetaService.getRecetasByUser(username, pageNo,pageSize,sortBy);
+	public PagedResponse getRecetasByUser (@PathVariable("username") String username, @RequestParam(name = "no", defaultValue = "1") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "created_At") String sortBy) {
+		return this.recetaService.getRecetasByUser(username, pageNo-1,pageSize,sortBy);
+	}
+	
+	@GetMapping("/user/{username}/timeline")
+	public PagedResponse getTimeline (@PathVariable("username")String username, @RequestParam(name = "no", defaultValue = "1") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "created_At") String sortBy) {
+		return this.recetaService.getTimeline(username, pageNo-1, pageSize, sortBy);
 	}
 	
 	@GetMapping("/{id}")
@@ -44,13 +51,13 @@ public class RecetaController {
 	}
 	
 	@GetMapping("/")
-	public List<Receta> getRecetasBySearch(@RequestParam(name = "search") String search,@RequestParam(name = "no", defaultValue = "0") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "created_At") String sortBy){
-		return this.recetaService.getRecetasBySearch(search, pageNo,pageSize,sortBy);
+	public PagedResponse getRecetasBySearch(@RequestParam(name = "search") String search,@RequestParam(name = "no", defaultValue = "1") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "created_At") String sortBy){
+		return this.recetaService.getRecetasBySearch(search, pageNo-1,pageSize,sortBy);
 	}
 	
 	@GetMapping("/categoria/{categoria}")
-	public List<Receta> getRecetasByCategoria(@PathVariable("categoria") String categoria, @RequestParam(name = "no", defaultValue = "0") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "createdAt") String sortBy){
-		return this.recetaService.getRecetasByCategory(Categoria.valueOf(categoria), pageNo,pageSize,sortBy);
+	public PagedResponse getRecetasByCategoria(@PathVariable("categoria") String categoria, @RequestParam(name = "no", defaultValue = "1") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "createdAt") String sortBy){
+		return this.recetaService.getRecetasByCategory(Categoria.valueOf(categoria), pageNo-1,pageSize,sortBy);
 	}
 	
 	@PostMapping
