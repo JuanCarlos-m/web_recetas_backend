@@ -1,5 +1,6 @@
 package com.recetas.service;
 
+import com.recetas.dto.PagedResponse;
 import com.recetas.exception.EntityNotFoundException;
 import com.recetas.model.Usuarios;
 
@@ -15,9 +16,10 @@ public interface UserService {
     Usuarios create(Usuarios usuarios);
     void delete(String nameUsuario) throws EntityNotFoundException;
 
-    List<Usuarios> getFollows(String username, Integer pageNo, Integer pageSize, String sortBy);
-    List<Usuarios>getFollowers(String username, Integer pageNo, Integer pageSize, String sortBy); 
+    PagedResponse getFollows(String username, Integer pageNo, Integer pageSize, String sortBy);
+    PagedResponse getFollowers(String username, Integer pageNo, Integer pageSize, String sortBy); 
     
     void addFollow(String idSeguidor, String idSeguido);
 	boolean checkFollow(String seguidor, String seguido);
+	void unfollow(String seguidorId, String seguidoId);
 }

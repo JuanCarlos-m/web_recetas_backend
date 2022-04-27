@@ -2,18 +2,21 @@ package com.recetas.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
+import com.recetas.dto.PagedResponse;
 import com.recetas.model.Categoria;
 import com.recetas.model.Receta;
 
 public interface RecetaService {
 
-	List<Receta> getAllRecetas(Integer pageNo, Integer pageSize, String sortBy);
-	
+	PagedResponse getAllRecetas(Integer pageNo, Integer pageSize, String sortBy);
+
 	Receta getReceta(Integer id);
 	
-	List<Receta> getRecetasBySearch(String search, Integer pageNo, Integer pageSize, String sortBy);
+	PagedResponse getRecetasBySearch(String search, Integer pageNo, Integer pageSize, String sortBy);
 	
-	List<Receta> getRecetasByCategory(Categoria categoria, Integer pageNo, Integer pageSize, String sortBy);
+	PagedResponse getRecetasByCategory(Categoria categoria, Integer pageNo, Integer pageSize, String sortBy);
 	
 	Receta addReceta(Receta receta);
 	
@@ -21,6 +24,7 @@ public interface RecetaService {
 	
 	void deleteReceta(Integer id);
 
-	List<Receta> getRecetasByUser(String username, Integer pageNo, Integer pageSize, String sortBy);
+	PagedResponse getRecetasByUser(String username, Integer pageNo, Integer pageSize, String sortBy);
 
+	PagedResponse getTimeline(String username, Integer pageNo, Integer pageSize, String sortBy);
 }

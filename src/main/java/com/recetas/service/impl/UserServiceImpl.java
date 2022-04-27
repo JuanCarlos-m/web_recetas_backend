@@ -2,7 +2,9 @@ package com.recetas.service.impl;
 
 
 import com.recetas.dao.UserRepository;
+import com.recetas.dto.PagedResponse;
 import com.recetas.exception.EntityNotFoundException;
+import com.recetas.model.Comentario;
 import com.recetas.model.Usuarios;
 import com.recetas.service.UserService;
 
@@ -73,28 +75,32 @@ public class UserServiceImpl implements UserService {
     }
     
 	@Override
-	public List<Usuarios> getFollows(String id, Integer pageNo, Integer pageSize, String sortBy) {
+	public PagedResponse getFollows(String id, Integer pageNo, Integer pageSize, String sortBy) {
 		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		
 		Page<Usuarios> pagedResult=this.userRepository.findFollows(id, paging);
 		
 		if (pagedResult.hasContent()) {
-			return pagedResult.getContent();
+			Usuarios[] usuarios=pagedResult.getContent().toArray(Usuarios[]::new);
+			return new PagedResponse(usuarios, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
+
 		}else {
-			return new ArrayList<Usuarios>();
+			return new PagedResponse();
 		}
 	}
 	
 	@Override
-	public List<Usuarios> getFollowers(String id, Integer pageNo, Integer pageSize, String sortBy) {
-Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+	public PagedResponse getFollowers(String id, Integer pageNo, Integer pageSize, String sortBy) {
+		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		
 		Page<Usuarios> pagedResult=this.userRepository.findFollowers(id, paging);
-		
+
 		if (pagedResult.hasContent()) {
-			return pagedResult.getContent();
+			Usuarios[] usuarios=pagedResult.getContent().toArray(Usuarios[]::new);
+			return new PagedResponse(usuarios, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
+
 		}else {
-			return new ArrayList<Usuarios>();
+			return new PagedResponse();
 		}
 	}
 	
@@ -115,6 +121,18 @@ Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 		if (userSeguidor.getFollows().contains(userSeguido)) return true;
 		else return false;
 		
+	}
+
+	@Override
+	public void unfollow(String seguidor, String seguido) {
+		Usuarios userSeguidor= this.userRepository.findByUsername(seguidor).get();
+		Usuarios userSeguido= this.userRepository.findByUsername(seguido).get();
+		List<Usuarios> follows=userSeguidor.getFollows();
+		follows.remove(userSeguido);
+		
+		userSeguidor.setFollows(follows);
+		
+		this.userRepository.save(userSeguidor);
 	}
 
 

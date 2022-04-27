@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.recetas.dto.ComentarioPostDTO;
+import com.recetas.dto.PagedResponse;
 import com.recetas.model.Comentario;
 import com.recetas.service.ComentarioService;
 
@@ -26,8 +27,8 @@ public class ComentarioController {
 	}
 	
 	@GetMapping("/recetas/{id}/comentarios")
-	public List<Comentario> getComentariosByReceta (@PathVariable("id") Integer id, @RequestParam(name = "no", defaultValue = "0") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "created_At") String sortBy){
-		return this.comentarioService.getComentariosFromReceta(id, pageNo,pageSize,sortBy);
+	public PagedResponse getComentariosByReceta (@PathVariable("id") Integer id, @RequestParam(name = "no", defaultValue = "1") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "created_At") String sortBy){
+		return this.comentarioService.getComentariosFromReceta(id, pageNo-1,pageSize,sortBy);
 	}
 	
 	@PostMapping("/comentario")

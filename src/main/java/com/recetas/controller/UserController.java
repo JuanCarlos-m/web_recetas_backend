@@ -5,6 +5,7 @@ package com.recetas.controller;
 import com.recetas.dao.RoleRepository;
 import com.recetas.dao.UserRepository;
 import com.recetas.dto.MessageResponse;
+import com.recetas.dto.PagedResponse;
 import com.recetas.dto.UserPostDTO;
 import com.recetas.exception.EntityNotFoundException;
 import com.recetas.model.ERole;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -75,7 +77,10 @@ public class UserController {
         }
 
         Usuarios user = new Usuarios(signUpRequest.getUsername(),
-                encoder.encode(signUpRequest.getPassword()));
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getName(),
+                signUpRequest.getLastname(),
+                signUpRequest.getFecha_nac());
 
         List<String> strRoles = signUpRequest.getRoles();
         List<Roles> roles = new ArrayList<>();
@@ -101,6 +106,7 @@ public class UserController {
         }
 
         user.setRoles(roles);
+        user.setCreatedAt(new Date());
         this.userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
@@ -118,18 +124,27 @@ public class UserController {
 	}
 	
 	@GetMapping("/users/{username}/follow")
-	public List<Usuarios> getFollows (@PathVariable("username") String username, @RequestParam(name = "no", defaultValue = "0") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "username") String sortBy){
-		return this.userService.getFollows(username, pageNo, pageSize, sortBy);
+	public PagedResponse getFollows (@PathVariable("username") String username, @RequestParam(name = "no", defaultValue = "1") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "username") String sortBy){
+		return this.userService.getFollows(username, pageNo-1, pageSize, sortBy);
 	}
 	
 	@GetMapping("/users/{username}/followers")
-	public List<Usuarios> getFollowers (@PathVariable("username") String username, @RequestParam(name = "no", defaultValue = "0") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "username") String sortBy){
-		return this.userService.getFollowers(username, pageNo, pageSize, sortBy);
+	public PagedResponse getFollowers (@PathVariable("username") String username, @RequestParam(name = "no", defaultValue = "1") Integer pageNo, @RequestParam(name = "size",defaultValue = "10") Integer pageSize,@RequestParam(name = "sort",defaultValue = "username") String sortBy){
+		//Añadir el parametro Size aqui no funciona por algun motivo, asi que no se añade.
+		return this.userService.getFollowers(username, pageNo-1, pageSize, sortBy);
 	}
 	
 	@PostMapping("/users/{username}/follow")
 	public ResponseEntity<?> followUser(@PathVariable("username") String seguidorId, @RequestParam("follow") String seguidoId){
 		this.userService.addFollow(seguidorId, seguidoId);
+		
+		return ResponseEntity.ok(null);
+		
+	}
+	
+	@PutMapping("/users/{username}/unfollow")
+	public ResponseEntity<?> unfollowUser(@PathVariable("username") String seguidorId, @RequestParam("follow") String seguidoId){
+		this.userService.unfollow(seguidorId, seguidoId);
 		
 		return ResponseEntity.ok(null);
 		
