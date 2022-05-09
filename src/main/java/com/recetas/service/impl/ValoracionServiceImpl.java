@@ -1,6 +1,7 @@
 package com.recetas.service.impl;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
@@ -17,9 +18,16 @@ public class ValoracionServiceImpl implements ValoracionService {
 		this.valoracionRepository = valoracionRepository;
 	}
 
-	@Override
+	/*@Override
 	public List<Valoracion> getValoracionesFromReceta(Integer id) {
 		return this.valoracionRepository.findValoracionesByReceta(id);
+	}*/
+	
+	@Override
+	public Long getValoracionesFromReceta(Integer id) {
+		Long salida=this.valoracionRepository.findValoracionesByReceta(id);
+		if (salida!=null) return salida;
+		else return (long) 0;
 	}
 
 	@Override
@@ -37,6 +45,12 @@ public class ValoracionServiceImpl implements ValoracionService {
 		this.valoracionRepository.findValoracionByUser(valoracion.getReceta().getId(), valoracion.getUser().getUsername()).orElseThrow();
 		
 		return this.valoracionRepository.save(valoracion);
+	}
+
+	@Override
+	public void deleteValoracion(Integer id) {
+		this.valoracionRepository.deleteById(id);
+		
 	}
 
 }
