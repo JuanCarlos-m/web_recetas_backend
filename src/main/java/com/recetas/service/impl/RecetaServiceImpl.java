@@ -30,8 +30,7 @@ public class RecetaServiceImpl implements RecetaService {
 	
 	@Override
 	public PagedResponse getAllRecetas(Integer pageNo, Integer pageSize, String sortBy) {
-		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-		
+		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
 		Page<Receta> pagedResult=this.recetaRepository.findAll(paging);
 		
 		if (pagedResult.hasContent()) {
@@ -41,7 +40,6 @@ public class RecetaServiceImpl implements RecetaService {
 		}else {
 			return new PagedResponse();
 		}
-		//return this.recetaRepository.findAll();
 	}
 
 	@Override
@@ -51,7 +49,7 @@ public class RecetaServiceImpl implements RecetaService {
 
 	@Override
 	public PagedResponse getRecetasBySearch(String search, Integer pageNo, Integer pageSize, String sortBy) {
-		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
 		
 		Page<Receta> pagedResult=this.recetaRepository.findBySearch(search,paging);
 		
@@ -62,13 +60,11 @@ public class RecetaServiceImpl implements RecetaService {
 		}else {
 			return new PagedResponse();
 		}
-		
-		//return this.recetaRepository.findBySearch(search);
 	}
 
 	@Override
 	public PagedResponse getRecetasByCategory(Categoria categoria, Integer pageNo, Integer pageSize, String sortBy) {
-		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
 		
 		Page<Receta> pagedResult=this.recetaRepository.findAllByCategoria(categoria, paging);
 		
@@ -79,8 +75,6 @@ public class RecetaServiceImpl implements RecetaService {
 		}else {
 			return new PagedResponse();
 		}
-		
-		//return this.recetaRepository.findAllByCategoria(categoria);
 	}
 
 	@Override
@@ -104,7 +98,7 @@ public class RecetaServiceImpl implements RecetaService {
 
 	@Override
 	public PagedResponse getRecetasByUser(String username, Integer pageNo, Integer pageSize, String sortBy) {
-		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
 		
 		Page<Receta> pagedResult=this.recetaRepository.findAllByUsername(username, paging);
 		
@@ -120,7 +114,7 @@ public class RecetaServiceImpl implements RecetaService {
 
 	@Override
 	public PagedResponse getTimeline(String username, Integer pageNo, Integer pageSize, String sortBy) {
-		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		Pageable paging=PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
 		
 		Page<Receta> pagedResult=this.recetaRepository.findFollowedUsersRecipes(username, paging);
 		

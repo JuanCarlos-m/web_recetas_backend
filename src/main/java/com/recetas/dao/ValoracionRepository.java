@@ -13,9 +13,13 @@ import com.recetas.model.Valoracion;
 @Repository
 public interface ValoracionRepository extends JpaRepository<Valoracion, Integer> {
 	
-	@Query(value = "select * from valoraciones where receta_id=:id",
+	/*@Query(value = "select * from valoraciones where receta_id=:id",
 			nativeQuery = true)
-	List<Valoracion> findValoracionesByReceta (@Param("id") Integer id);
+	List<Valoracion> findValoracionesByReceta (@Param("id") Integer id);*/
+	
+	@Query(value = "SELECT sum(valoraciones.valoracion) from valoraciones where receta_id=:id",
+			nativeQuery = true)
+	Long findValoracionesByReceta (@Param("id") Integer id);
 	
 	@Query(value = "select * from valoraciones where receta_id=:recetaid and user_id=:userid",
 			nativeQuery = true)

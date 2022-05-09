@@ -36,7 +36,7 @@ public class Receta extends Auditable {
 	@Column(name = "titulo")
 	private String titulo;
 	
-	@Column(name = "contenido", columnDefinition = "TEXT")
+	@Column(name = "contenido", columnDefinition = "LONGTEXT")
 	private String contenido;
 	
 	@Column(name = "img")
