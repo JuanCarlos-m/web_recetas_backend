@@ -48,10 +48,6 @@ public class ImageService {
 			method.invoke(myObject, "/download/"+myFileName);
 			entityManager.persist(entity.cast(myObject));
 			
-			//En algun sitio tengo que guardar el nombre de la imagen, digo yo
-			/*Receta receta=(Receta) myObject;
-			receta.setImg(myFileName);
-			this.recetaRepository.save(receta);*/
 		} catch (Exception e) {
 			throw new EntityNotFoundException(entity.getSimpleName()+":"+Integer.toString(id));
 		}
