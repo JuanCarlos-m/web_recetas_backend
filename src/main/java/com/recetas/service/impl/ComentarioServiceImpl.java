@@ -1,6 +1,7 @@
 package com.recetas.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -42,7 +43,7 @@ public class ComentarioServiceImpl implements ComentarioService {
 	
 	@Override
 	public Comentario addComentario(Comentario comentario) {
-		// TODO Auto-generated method stub
+		comentario.setCreatedAt(new Date());
 		return this.comentarioRepository.save(comentario);
 	}
 

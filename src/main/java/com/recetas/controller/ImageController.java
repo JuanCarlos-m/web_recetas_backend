@@ -34,7 +34,7 @@ public class ImageController {
 	@PostMapping(value = "/upload")
 	public ResponseEntity<Object> imageUpload(@RequestParam("id") String id, @RequestParam("entity") String entity, @RequestParam("file") MultipartFile file){
 		try {
-			String packageName=this.getClass().getPackageName();
+			//String packageName=this.getClass().getPackageName();
 			//No se como va esto pero lo ponga como lo ponga no tira.
 			//Class<?> entityClass=Class.forName("com.recetas.model.Receta");
 			//Class<?> entityClass=Class.forName(packageName.substring(0,packageName.lastIndexOf("."))+".model"+entity);
@@ -46,10 +46,8 @@ public class ImageController {
 			throw new EntityNotFoundException(entity);
 		}*/ 
 			catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (com.recetas.exception.EntityNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
