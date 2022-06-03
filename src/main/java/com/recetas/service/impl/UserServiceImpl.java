@@ -81,8 +81,8 @@ public class UserServiceImpl implements UserService {
 		Page<Usuarios> pagedResult=this.userRepository.findFollows(id, paging);
 		
 		if (pagedResult.hasContent()) {
-			Usuarios[] usuarios=pagedResult.getContent().toArray(Usuarios[]::new);
-			return new PagedResponse(usuarios, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
+			List<Usuarios> usuarios=pagedResult.getContent();
+			return new PagedResponse(usuarios,null ,null , pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
 
 		}else {
 			return new PagedResponse();
@@ -96,8 +96,8 @@ public class UserServiceImpl implements UserService {
 		Page<Usuarios> pagedResult=this.userRepository.findFollowers(id, paging);
 
 		if (pagedResult.hasContent()) {
-			Usuarios[] usuarios=pagedResult.getContent().toArray(Usuarios[]::new);
-			return new PagedResponse(usuarios, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
+			List<Usuarios> usuarios=pagedResult.getContent();
+			return new PagedResponse(usuarios, null, null, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
 
 		}else {
 			return new PagedResponse();

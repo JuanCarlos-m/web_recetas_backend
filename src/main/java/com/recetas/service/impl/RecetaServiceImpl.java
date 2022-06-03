@@ -34,8 +34,8 @@ public class RecetaServiceImpl implements RecetaService {
 		Page<Receta> pagedResult=this.recetaRepository.findAll(paging);
 		
 		if (pagedResult.hasContent()) {
-			Receta[] recetas=pagedResult.getContent().toArray(Receta[]::new);
-			return new PagedResponse(recetas, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
+			List<Receta> recetas= pagedResult.getContent();
+			return new PagedResponse(null,recetas, null, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
 
 		}else {
 			return new PagedResponse();
@@ -54,8 +54,8 @@ public class RecetaServiceImpl implements RecetaService {
 		Page<Receta> pagedResult=this.recetaRepository.findBySearch(search,paging);
 		
 		if (pagedResult.hasContent()) {
-			Receta[] recetas=pagedResult.getContent().toArray(Receta[]::new);
-			return new PagedResponse(recetas, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
+			List<Receta> recetas= pagedResult.getContent();
+			return new PagedResponse(null,recetas, null, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
 
 		}else {
 			return new PagedResponse();
@@ -69,8 +69,8 @@ public class RecetaServiceImpl implements RecetaService {
 		Page<Receta> pagedResult=this.recetaRepository.findAllByCategoria(categoria, paging);
 		
 		if (pagedResult.hasContent()) {
-			Receta[] recetas=pagedResult.getContent().toArray(Receta[]::new);
-			return new PagedResponse(recetas, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
+			List<Receta> recetas= pagedResult.getContent();
+			return new PagedResponse(null,recetas, null, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
 
 		}else {
 			return new PagedResponse();
@@ -103,8 +103,8 @@ public class RecetaServiceImpl implements RecetaService {
 		Page<Receta> pagedResult=this.recetaRepository.findAllByUsername(username, paging);
 		
 		if (pagedResult.hasContent()) {
-			Receta[] recetas=pagedResult.getContent().toArray(Receta[]::new);
-			return new PagedResponse(recetas, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
+			List<Receta> recetas= pagedResult.getContent();
+			return new PagedResponse(null,recetas, null, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
 
 		}else {
 			return new PagedResponse();
@@ -119,8 +119,8 @@ public class RecetaServiceImpl implements RecetaService {
 		Page<Receta> pagedResult=this.recetaRepository.findFollowedUsersRecipes(username, paging);
 		
 		if (pagedResult.hasContent()) {
-			Receta[] recetas=pagedResult.getContent().toArray(Receta[]::new);
-			return new PagedResponse(recetas, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
+			List<Receta> recetas= pagedResult.getContent();
+			return new PagedResponse(null,recetas, null, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
 
 		}else {
 			return new PagedResponse();
