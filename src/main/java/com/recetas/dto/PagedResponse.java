@@ -24,29 +24,15 @@ public class PagedResponse {
 	private Integer size;
 	private Integer number;
 	
-	public PagedResponse(Usuarios[] usuarios, long totalElements, Integer number, Integer size) {
-		super();
-		this.usuarios = Arrays.asList(usuarios);
-		this.totalElements = totalElements;
-		this.size = size;
-		this.number = number;
-	}
 
-	public PagedResponse(Receta[] recetas, long totalElements, Integer size, Integer number) {
+	public PagedResponse(List<Usuarios> usuarios, List<Receta> recetas, List<Comentario> comentarios, long totalElements, Integer number, Integer size) {
 		super();
-		this.recetas = Arrays.asList(recetas);
+		this.usuarios = usuarios;
+		this.recetas=recetas;
+		this.comentarios=comentarios;
 		this.totalElements = totalElements;
 		this.size = size;
 		this.number = number;
 	}
-
-	public PagedResponse(Comentario[] comentarios, long totalElements, Integer size, Integer number) {
-		super();
-		this.comentarios = Arrays.asList(comentarios);
-		this.totalElements = totalElements;
-		this.size = size;
-		this.number = number;
-	}
-	
 	
 }

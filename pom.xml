@@ -13,7 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>web_recetas_backend</name>
     <description>Backend con Spring para proyecto</description>
-
+	<packaging>war</packaging>
     <properties>
         <java.version>1.8</java.version>
         <org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
@@ -21,6 +21,11 @@
     </properties>
 
     <dependencies>
+    	<dependency>
+   			<groupId>org.springframework.boot</groupId>
+   			<artifactId>spring-boot-starter-tomcat</artifactId>
+   			<scope>provided</scope>
+		</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>

@@ -32,8 +32,8 @@ public class ComentarioServiceImpl implements ComentarioService {
 		Page<Comentario> pagedResult=this.comentarioRepository.findByRecetaid(id, paging);
 		
 		if (pagedResult.hasContent()) {
-			Comentario[] comentarios=pagedResult.getContent().toArray(Comentario[]::new);
-			return new PagedResponse(comentarios, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
+			List<Comentario> comentarios=pagedResult.getContent();
+			return new PagedResponse(null, null, comentarios, pagedResult.getTotalElements(), pagedResult.getNumberOfElements(), pagedResult.getSize());
 
 		}else {
 			return new PagedResponse();
