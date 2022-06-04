@@ -1,5 +1,6 @@
 package com.recetas.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
@@ -36,6 +37,12 @@ public class ImageService {
 	@Transactional
 	public boolean imageStore(MultipartFile file, Class entity, int id) throws IOException, EntityNotFoundException{
 		try {
+			File directory=new File("./images/");
+			
+			if(!directory.exists()) {
+				directory.mkdir();
+			}
+			
 			Object myObject=entityManager.find(Receta.class, id);
 			
 			String myFileName=entity.getSimpleName()+"_"+Integer.toString(id)+"_"+file.getOriginalFilename();
